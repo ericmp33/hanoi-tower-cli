@@ -130,14 +130,12 @@ public class HanoiTower {
         // if src column doesn't have disks or both columns are the same, disk can't be moved
         if (hanoi[src][0] == 0 || src == tgt) return false;
 
-        // else, check if disk will be put on a bigger disk
+        // else, if tgt top disk is greater than src top disk and is not 0, it can be moved
+        int tgtTopDisk = getTopDisk(tgt);
         int srcTopDisk = getTopDisk(src);
-        for (int i = 0; i < colHeight; i++) {
-            int temp = hanoi[tgt][i];
 
-            // if tgt column doesn't have disks or src top disk is smaller than the one being checked and isn't 0
-            if (hanoi[tgt][0] == 0 || srcTopDisk < temp && temp != 0) return true;
-        }
-        return false;
+        if (tgtTopDisk == 0 && srcTopDisk > 0) return true;
+
+        return tgtTopDisk > srcTopDisk;
     }
 }
