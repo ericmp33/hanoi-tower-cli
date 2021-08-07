@@ -8,7 +8,6 @@ public class HanoiTower {
     public static final String ANSI_BLUE = "\u001B[34m";
     private static final Scanner sc = new Scanner(System.in);
     private static final Pattern HEIGHT_PATTERN = Pattern.compile("[3-9]");
-    private static final Pattern COLS_PATTERN = Pattern.compile("[1-3]+");
     private final int colHeight;
     private final int nColumns;
     private final int[][] hanoi;
@@ -28,8 +27,8 @@ public class HanoiTower {
 
     // asks and returns the columns height
     private int askColsHeight() {
+        System.out.println("[?] Input number of disks:");
         while (true) {
-            System.out.println("[?] Input number of disks:");
             System.out.print("> ");
             String input = sc.nextLine().trim();
 
@@ -38,6 +37,15 @@ public class HanoiTower {
                 return Integer.parseInt(input);
             }
         }
+    }
+
+    // returns true if input matches one of the possible disk movements
+    private boolean isValidInput(int input) {
+        int[] validMovements = { 12, 13, 21, 23, 31, 32 };
+        for (int validMov : validMovements) {
+            if (input == validMov) return true;
+        }
+        return false;
     }
 
     private void printTower() {
@@ -82,7 +90,7 @@ public class HanoiTower {
             while (true) {
                 System.out.print("> ");
                 String input = sc.nextLine().trim();
-                if (input.length() == 2 && COLS_PATTERN.matcher(input).matches()) {
+                if (isValidInput(Integer.parseInt(input))) {
                     String[] tt = input.split("");
                     int src = Integer.parseInt(tt[0]) - 1;
                     int tgt = Integer.parseInt(tt[1]) - 1;
@@ -129,15 +137,12 @@ public class HanoiTower {
 
     // returns true if disk on top of source column can be moved to target column
     private boolean topDiskCanBeMoved(int src, int tgt) {
-        // if src column doesn't have disks or both columns are the same, disk can't be moved
-        if (hanoi[src][0] == 0 || src == tgt) return false;
-
         // else, if tgt top disk is greater than src top disk and is not 0, it can be moved
         int tgtTopDisk = getTopDisk(tgt);
         int srcTopDisk = getTopDisk(src);
 
-        if (tgtTopDisk == 0 && srcTopDisk > 0) return true;
+        if (srcTopDisk > 0 && tgtTopDisk == 0) return true;
 
-        return tgtTopDisk > srcTopDisk;
+        return srcTopDisk < tgtTopDisk;
     }
 }
