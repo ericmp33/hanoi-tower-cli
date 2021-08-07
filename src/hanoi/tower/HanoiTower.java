@@ -7,6 +7,8 @@ public class HanoiTower {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLUE = "\u001B[34m";
     private static final Scanner sc = new Scanner(System.in);
+    private static final Pattern HEIGHT_PATTERN = Pattern.compile("[3-9]");
+    private static final Pattern COLS_PATTERN = Pattern.compile("[1-3]+");
     private final int colHeight;
     private final int nColumns;
     private final int[][] hanoi;
@@ -32,7 +34,7 @@ public class HanoiTower {
             String input = sc.nextLine().trim();
 
             // if is not a number between 3 and 9 (both included, isn't a valid input)
-            if (Pattern.compile("[3-9]").matcher(input).matches()) {
+            if (HEIGHT_PATTERN.matcher(input).matches()) {
                 return Integer.parseInt(input);
             }
         }
@@ -80,7 +82,7 @@ public class HanoiTower {
             while (true) {
                 System.out.print("> ");
                 String input = sc.nextLine().trim();
-                if (input.length() == 2 && Pattern.compile("[1-3]+").matcher(input).matches()) {
+                if (input.length() == 2 && COLS_PATTERN.matcher(input).matches()) {
                     String[] tt = input.split("");
                     int src = Integer.parseInt(tt[0]) - 1;
                     int tgt = Integer.parseInt(tt[1]) - 1;
