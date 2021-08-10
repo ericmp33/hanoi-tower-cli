@@ -10,7 +10,7 @@ To extend this information and understand how to solve it, check out <a href="ht
 # Instructions📄
 - ❗⚠️IMPORTANT⚠️❗ You should use a terminal that supports colorized ASCII characters, so you will see the prints colorized and all will be more readable!
 
-- To execute it <a href="https://adoptopenjdk.net/?variant=openjdk16&jvmVariant=hotspot">get Java☕</a> - build 14.0.2+12 or newer version. Then download the game <a href="https://github.com/ericmp33/hanoi-tower-cli/raw/main/out/artifacts/hanoi_tower_cli_jar/hanoi-tower-cli.jar">here</a>. Execute the file via terminal inputting `java -jar hanoi-tower-cli.jar`, where `.` is the current folder containing the `jar`.
+- To execute it <a href="https://adoptopenjdk.net/?variant=openjdk16&jvmVariant=hotspot">get Java☕</a> - build 14.0.2+12 or newer version. Then download the game <a href="https://github.com/ericmp33/hanoi-tower-cli/raw/main/out/artifacts/hanoi_tower_cli_jar/hanoi-tower-cli.jar">here</a>. Execute the file via terminal inputting `java -jar ./hanoi-tower-cli.jar`, where `.` is the current folder containing the `jar`.
 
 - When the game starts, you'll be asked about the number of disks. The minimum number of disks to be able to play is 3, and I did set a maximum of 9 disks in this case. The more disks the tower has, the more difficult it is to game over.
 
