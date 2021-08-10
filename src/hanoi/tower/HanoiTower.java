@@ -40,10 +40,10 @@ public class HanoiTower {
     }
 
     // returns true if input matches one of the possible disk movements
-    private boolean isValidInput(int input) {
-        int[] validMovements = { 12, 13, 21, 23, 31, 32 };
-        for (int validMov : validMovements) {
-            if (input == validMov) return true;
+    private boolean isValidInput(String input) {
+        String[] validMovements = { "12", "13", "21", "23", "31", "32" };
+        for (String validMov : validMovements) {
+            if (input.equals(validMov)) return true;
         }
         return false;
     }
@@ -90,7 +90,7 @@ public class HanoiTower {
             while (true) {
                 System.out.print("> ");
                 String input = sc.nextLine().trim();
-                if (isValidInput(Integer.parseInt(input))) {
+                if (isValidInput(input)) {
                     String[] tt = input.split("");
                     int src = Integer.parseInt(tt[0]) - 1;
                     int tgt = Integer.parseInt(tt[1]) - 1;
