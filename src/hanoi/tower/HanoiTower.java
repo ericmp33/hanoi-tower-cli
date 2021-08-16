@@ -1,5 +1,7 @@
 package hanoi.tower;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -11,6 +13,7 @@ public class HanoiTower {
     private final int colHeight;
     private final int nColumns;
     private final int[][] hanoi;
+    private final Instant startTime;
 
     public HanoiTower() {
         colHeight = askColsHeight();
@@ -23,6 +26,10 @@ public class HanoiTower {
         for (int i = 0; i < colHeight; i++) {
             hanoi[0][i] = colHeight - i;
         }
+
+        // save start time
+        startTime = Instant.now();
+        System.out.println("Chronometer started!");
     }
 
     // asks and returns the columns height
@@ -71,6 +78,17 @@ public class HanoiTower {
         return false;
     }
 
+    // print how much the game took to finish
+    private void printGameTime() {
+        int sec = (int) Duration.between(startTime, Instant.now()).toSeconds();
+        int min = 0;
+        while (sec >= 60) {
+            sec -= 60;
+            min++;
+        }
+        System.out.println("Game lasted " + min + " min, " + sec + " sec!!");
+    }
+
     public void run() {
         int round = 0;
         while (true) {
@@ -80,6 +98,7 @@ public class HanoiTower {
             if (!colHasZero(nColumns - 1)) {
                 System.out.println("Good game :)");
                 printTower();
+                printGameTime();
                 break;
             }
 
