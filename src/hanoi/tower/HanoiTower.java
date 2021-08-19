@@ -9,7 +9,6 @@ public class HanoiTower {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLUE = "\u001B[34m";
     private static final Scanner sc = new Scanner(System.in);
-    private static final Pattern HEIGHT_PATTERN = Pattern.compile("[3-9]");
     private final int colHeight;
     private final int nColumns;
     private final int[][] hanoi;
@@ -39,8 +38,8 @@ public class HanoiTower {
             System.out.print("> ");
             String input = sc.nextLine().trim();
 
-            // if is not a number between 3 and 9 (both included, isn't a valid input)
-            if (HEIGHT_PATTERN.matcher(input).matches()) {
+            // if is not a number between 3 and 9 (both included), isn't a valid input
+            if (Pattern.compile("[3-9]").matcher(input).matches()) {
                 return Integer.parseInt(input);
             }
         }
@@ -164,4 +163,20 @@ public class HanoiTower {
 
         return srcTopDisk < tgtTopDisk;
     }
+
+    //V2
+    /*
+    // returns true if disk on top of source column can be moved to target column
+    private boolean topDiskCanBeMoved(int src, int tgt) {
+        // src disk can be moved to tgt col if
+        // src col has disks (srcTopDisk != 0)
+        // and
+        // tgt col has space to put that disk (tgtTopDisk == 0)
+        // or
+        // tgt top disk is greater than src top disk (tgtTopDisk > srcTopDisk)
+        int tgtTopDisk = getTopDisk(tgt);
+        int srcTopDisk = getTopDisk(src);
+
+        return srcTopDisk != 0 && (tgtTopDisk == 0 || tgtTopDisk > srcTopDisk);
+    }*/
 }
