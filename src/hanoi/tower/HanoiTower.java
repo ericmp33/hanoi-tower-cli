@@ -105,6 +105,7 @@ public class HanoiTower {
             System.out.println("Round " + round + ":");
             printTower();
 
+            // make the user move the disks
             while (true) {
                 System.out.print("> ");
                 String input = sc.nextLine().trim();
@@ -122,9 +123,9 @@ public class HanoiTower {
         }
     }
 
-    // move a disk from column src (source) to tgt (target)
+    // move a disk from source col to target col
     private void moveTopDisk(int src, int tgt) {
-        // get disk on top of src column and move it to tgt
+        // get disk on top of src col and move it to tgt
         int topDisk = getTopDisk(src);
         int topDiskPos = getTopDiskPos(src);
 
@@ -137,7 +138,7 @@ public class HanoiTower {
         }
     }
 
-    // returns disk on top of parsed column
+    // returns disk on top of parsed column, 0 means the column is empty
     private int getTopDisk(int col) {
         for (int i = colHeight - 1; i >= 0; i--) {
             if (hanoi[col][i] != 0) return hanoi[col][i];
@@ -155,28 +156,13 @@ public class HanoiTower {
 
     // returns true if disk on top of source column can be moved to target column
     private boolean topDiskCanBeMoved(int src, int tgt) {
-        // else, if tgt top disk is greater than src top disk and is not 0, it can be moved
+        // src top disk can be moved to tgt col if:
+        // src col has disks (if srcTopDisk != 0 is true means it has disks)
+        // and if one or both conditions are true:
+        // tgt top disk is bigger than src top disk (tgtTopDisk > srcTopDisk) (game rule)
+        // tgt col hasn't disks (if tgtTopDisk == 0 is true means it has space for another disk)
         int tgtTopDisk = getTopDisk(tgt);
         int srcTopDisk = getTopDisk(src);
-
-        if (srcTopDisk > 0 && tgtTopDisk == 0) return true;
-
-        return srcTopDisk < tgtTopDisk;
+        return srcTopDisk != 0 && (tgtTopDisk > srcTopDisk || tgtTopDisk == 0);
     }
-
-    //V2
-    /*
-    // returns true if disk on top of source column can be moved to target column
-    private boolean topDiskCanBeMoved(int src, int tgt) {
-        // src disk can be moved to tgt col if
-        // src col has disks (srcTopDisk != 0)
-        // and
-        // tgt col has space to put that disk (tgtTopDisk == 0)
-        // or
-        // tgt top disk is greater than src top disk (tgtTopDisk > srcTopDisk)
-        int tgtTopDisk = getTopDisk(tgt);
-        int srcTopDisk = getTopDisk(src);
-
-        return srcTopDisk != 0 && (tgtTopDisk == 0 || tgtTopDisk > srcTopDisk);
-    }*/
 }
