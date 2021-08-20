@@ -126,8 +126,9 @@ public class HanoiTower {
     // move a disk from source col to target col
     private void moveTopDisk(int src, int tgt) {
         // get disk on top of src col and move it to tgt
-        int topDisk = getTopDisk(src);
-        int topDiskPos = getTopDiskPos(src);
+        int[] arr = getTopDisk(src);
+        int topDiskPos = arr[0];
+        int topDisk = arr[1];
 
         for (int i = 0; i < colHeight; i++) {
             if (hanoi[tgt][i] == 0) {
@@ -138,20 +139,12 @@ public class HanoiTower {
         }
     }
 
-    // returns disk on top of parsed column, 0 means the column is empty
-    private int getTopDisk(int col) {
+    // returns position and number of disk on top of parsed column
+    private int[] getTopDisk(int col) {
         for (int i = colHeight - 1; i >= 0; i--) {
-            if (hanoi[col][i] != 0) return hanoi[col][i];
+            if (hanoi[col][i] != 0) return new int[] { i, hanoi[col][i] };
         }
-        return 0;
-    }
-
-    // returns position of disk on top of parsed column
-    private int getTopDiskPos(int col) {
-        for (int i = colHeight - 1; i >= 0; i--) {
-            if (hanoi[col][i] != 0) return i;
-        }
-        return 0;
+        return new int[] { 0, 0 };
     }
 
     // returns true if disk on top of source column can be moved to target column
@@ -161,8 +154,12 @@ public class HanoiTower {
         // and if one or both conditions are true:
         // tgt top disk is bigger than src top disk (tgtTopDisk > srcTopDisk) (game rule)
         // tgt col hasn't disks (if tgtTopDisk == 0 is true means it has space for another disk)
-        int tgtTopDisk = getTopDisk(tgt);
-        int srcTopDisk = getTopDisk(src);
+        int tgtTopDisk = getTopDisk(tgt)[1];
+        int srcTopDisk = getTopDisk(src)[1];
         return srcTopDisk != 0 && (tgtTopDisk > srcTopDisk || tgtTopDisk == 0);
+    }
+
+    public static void main(String[] args) {
+        new HanoiTower().run();
     }
 }
