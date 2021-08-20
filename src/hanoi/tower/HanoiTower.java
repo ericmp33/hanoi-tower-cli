@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public class HanoiTower {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLUE = "\u001B[34m";
-    private static final Scanner sc = new Scanner(System.in);
+    private static final Scanner SC = new Scanner(System.in);
     private final int colHeight;
     private final int nColumns;
     private final int[][] hanoi;
@@ -36,7 +36,7 @@ public class HanoiTower {
         System.out.println("[?] Input number of disks:");
         while (true) {
             System.out.print("> ");
-            String input = sc.nextLine().trim();
+            String input = SC.nextLine().trim();
 
             // if is not a number between 3 and 9 (both included), isn't a valid input
             if (Pattern.compile("[3-9]").matcher(input).matches()) {
@@ -108,7 +108,7 @@ public class HanoiTower {
             // make the user move the disks
             while (true) {
                 System.out.print("> ");
-                String input = sc.nextLine().trim();
+                String input = SC.nextLine().trim();
                 if (isValidInput(input)) {
                     String[] tt = input.split("");
                     int src = Integer.parseInt(tt[0]) - 1;
