@@ -6,24 +6,18 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class HanoiTower {
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLUE = "\u001B[34m";
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_BLUE = "\u001B[34m";
     private static final Scanner SC = new Scanner(System.in);
-    private final int colHeight;
-    private final int nColumns;
-    private final int[][] hanoi;
+    private static final int N_COLUMNS = 3; // number of columns of the tower
+    private static final int COLUMNS_HEIGHT = setColsHeight(); // height of the tower's columns
+    private final int[][] hanoi = new int[N_COLUMNS][COLUMNS_HEIGHT];
     private final Instant startTime;
 
-    public HanoiTower() {
-        colHeight = askColsHeight();
-        nColumns = 3;
-
-        // create hanoi's tower with its 3 columns and inputted number of disks
-        hanoi = new int[nColumns][colHeight];
-
-        // auto-fill first column with disks
-        for (int i = 0; i < colHeight; i++) {
-            hanoi[0][i] = colHeight - i;
+    private HanoiTower() {
+        // auto-fill first column with disks (disks are represented by numbers)
+        for (int i = 0; i < COLUMNS_HEIGHT; i++) {
+            hanoi[0][i] = COLUMNS_HEIGHT - i;
         }
 
         // save start time
@@ -31,8 +25,8 @@ public class HanoiTower {
         System.out.println("Chronometer started!");
     }
 
-    // asks and returns the columns height
-    private int askColsHeight() {
+    // sets the height of the tower's columns
+    private static int setColsHeight() {
         System.out.println("[?] Input number of disks:");
         while (true) {
             System.out.print("> ");
@@ -55,26 +49,19 @@ public class HanoiTower {
     }
 
     private void printTower() {
-        StringBuilder printCol = new StringBuilder();
-        for (int j = colHeight - 1; j >= 0; j--) {
-            for (int i = 0; i < nColumns; i++) {
+        StringBuilder print = new StringBuilder();
+        for (int j = COLUMNS_HEIGHT - 1; j >= 0; j--) {
+            for (int i = 0; i < N_COLUMNS; i++) {
                 // colorize 0's
-                if (hanoi[i][j] == 0) printCol.append(ANSI_BLUE);
-                printCol.append(hanoi[i][j]).append(ANSI_RESET);
+                if (hanoi[i][j] == 0) print.append(ANSI_BLUE);
+                print.append(hanoi[i][j]).append(ANSI_RESET);
 
                 // add space between columns
-                if (i != nColumns - 1) printCol.append(" ");
+                if (i != N_COLUMNS - 1) print.append(" ");
             }
-            printCol.append("\n");
+            print.append("\n");
         }
-        System.out.print(printCol);
-    }
-
-    private boolean colHasZero(int col) {
-        for (int i = 0; i < colHeight; i++) {
-            if (hanoi[col][i] == 0) return true;
-        }
-        return false;
+        System.out.print(print);
     }
 
     // print how much the game took to finish
@@ -88,13 +75,21 @@ public class HanoiTower {
         System.out.println("Game lasted " + min + " min, " + sec + " sec!!");
     }
 
+    // returns if last column has at least 1 zero
+    private boolean lastColHasZero() {
+        for (int i = 0; i < COLUMNS_HEIGHT; i++) {
+            if (hanoi[2][i] == 0) return true;
+        }
+        return false;
+    }
+
     public void run() {
         int round = 0;
         while (true) {
             System.out.println("--------------");
 
             // if last column doesn't have any 0, game finishes
-            if (!colHasZero(nColumns - 1)) {
+            if (!lastColHasZero()) {
                 System.out.println("Good game :)");
                 printTower();
                 printGameTime();
@@ -110,9 +105,9 @@ public class HanoiTower {
                 System.out.print("> ");
                 String input = SC.nextLine().trim();
                 if (isValidInput(input)) {
-                    String[] tt = input.split("");
-                    int src = Integer.parseInt(tt[0]) - 1;
-                    int tgt = Integer.parseInt(tt[1]) - 1;
+                    String[] split = input.split("");
+                    int src = Integer.parseInt(split[0]) - 1;
+                    int tgt = Integer.parseInt(split[1]) - 1;
 
                     if (topDiskCanBeMoved(src, tgt)) {
                         moveTopDisk(src, tgt);
@@ -130,7 +125,7 @@ public class HanoiTower {
         int topDiskPos = arr[0];
         int topDisk = arr[1];
 
-        for (int i = 0; i < colHeight; i++) {
+        for (int i = 0; i < COLUMNS_HEIGHT; i++) {
             if (hanoi[tgt][i] == 0) {
                 hanoi[tgt][i] = topDisk;
                 hanoi[src][topDiskPos] = 0;
@@ -141,7 +136,7 @@ public class HanoiTower {
 
     // returns position and number of disk on top of parsed column
     private int[] getTopDisk(int col) {
-        for (int i = colHeight - 1; i >= 0; i--) {
+        for (int i = COLUMNS_HEIGHT - 1; i >= 0; i--) {
             if (hanoi[col][i] != 0) return new int[] { i, hanoi[col][i] };
         }
         return new int[] { 0, 0 };
@@ -151,7 +146,7 @@ public class HanoiTower {
     private boolean topDiskCanBeMoved(int src, int tgt) {
         // src top disk can be moved to tgt col if:
         // src col has disks (if srcTopDisk != 0 is true means it has disks)
-        // and if one or both conditions are true:
+        // and if one or both of those conditions are true:
         // tgt top disk is bigger than src top disk (tgtTopDisk > srcTopDisk) (game rule)
         // tgt col hasn't disks (if tgtTopDisk == 0 is true means it has space for another disk)
         int tgtTopDisk = getTopDisk(tgt)[1];
