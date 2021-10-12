@@ -1,5 +1,7 @@
 # hanoi-tower-cli🧮🧠
-This is a simulation of the mathematical puzzle "Tower of Hanoi" in command line interface, made with Java 16. I could choose to use a more OOP structure, but I did it like this to understand more the bidimensional arrays.
+Welcome to the command line interface version of the mathematical puzzle "Tower of Hanoi", made with Java 16.
+
+\* While programming it, I could use a more OOP structure, but I did it as it is to understand more the bidimensional arrays.
 
 # What is the Tower of Hanoi?🔍
 The Tower of Hanoi is a mathematical puzzle. It consists of 3 rods and a number of disks of different diameters, which can slide onto any rod. It starts with the disks stacked on the 1st rod in order of decreasing size, the smallest at the top.
